@@ -8,7 +8,7 @@ The main goal is to understand whether presenting samples in a specific order im
 ---
 
 ## **Contents**
-- **Notebook:** `curriculum_learning.ipynb` — Contains all steps from data preparation to model fine-tuning and evaluation.
+- **Notebook:** `calculate_measure.ipynb` — Contains all steps from data preparation to model fine-tuning and evaluation.
 - **Dependencies:** Required libraries and installation instructions.
 
 ---
@@ -42,32 +42,35 @@ python -m spacy download en_core_web_md
 ---
 
 ## **Notebook Overview**
-The notebook is divided into several key sections:
 
-1. **Imports and Setup:**  
+### 1. **Imports and Setup:**
    Install and import the necessary libraries.
 
-2. **Dataset Loading and Preprocessing:**  
-   - Load the SNLI dataset or other datasets of interest.
-   - Apply basic preprocessing to prepare for complexity measure calculation.
+### 2. **Dataset Loading and Preprocessing:**
+   - **Initial Random Sampling:** First, 30,000 random rows were extracted from the SNLI dataset while ensuring that the dataset maintained the triple structure (premise, hypothesis, and label).
+   - **Final Sampling for Complexity Distribution:** Using a custom function that calculates complexity measures, 2,100 rows were sampled from the initial subset while preserving the distribution of the calculated complexity values.
 
-3. **Calculating Complexity Measures:**  
-   - Calculate various metrics, including:
-     - Sentence length
-     - Syntactic tree depth
-     - Readability (Flesch-Kincaid scores)
-   - Save the calculated measures to CSV files for training.
+### 3. **Calculating Complexity Measures:**
+   The notebook calculates several complexity measures, each designed to evaluate different aspects of sentence difficulty:
 
-4. **Ordering the Data:**  
+   - **Syntactic Overlap + Lexical Diversity + Sentence Length (SO + LD + SL):** Combines syntactic similarity between premise and hypothesis, lexical diversity of words, and sentence length.
+   - **Syntactic Tree Depth Measure:** Calculates the depth of the syntactic parse tree for a sentence to assess its structural complexity.
+   - **Sentence Length Measure:** The number of words in the sentence, representing basic length-based complexity.
+   - **Flesch-Kincaid Measure:** A readability metric based on word length and sentence structure, commonly used to assess how difficult a text is to read.
+   - **Sentence Length and Flesch-Kincaid Combined Measure:** Combines the sentence length and Flesch-Kincaid scores to provide a holistic view of both syntactic and semantic complexity.
+
+   The calculated measures are saved to CSV files for later use during training.
+
+### 4. **Ordering the Data:**
    Generate versions of the dataset ordered by:
-   - **Increasing complexity**
-   - **Decreasing complexity**
-   - **Baseline (random order)**
+   - **Increasing complexity:** From simpler to more complex examples.
+   - **Decreasing complexity:** From more complex to simpler examples.
+   - **Baseline (random order):** Random shuffling of the data.
 
-5. **Fine-tuning Pre-trained Models:**  
+### 5. **Fine-tuning Pre-trained Models:**
    Use models such as GPT-2 and DeBERTa to fine-tune on the ordered datasets.
 
-6. **Evaluation and Results:**  
+### 6. **Evaluation and Results:**
    Evaluate model performance across the different orderings using accuracy or other metrics.
 
 ---
