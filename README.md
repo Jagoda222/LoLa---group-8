@@ -8,7 +8,7 @@ The main goal is to understand whether presenting samples in a specific order im
 ---
 
 ## **Contents**
-- **Notebook:** `calculate_measure.ipynb` — Contains all steps from data preparation to model fine-tuning and evaluation.
+- **Notebook:** `curriculum_learning.ipynb` — Contains all steps from data preparation to model fine-tuning and evaluation.
 - **Dependencies:** Required libraries and installation instructions.
 
 ---
